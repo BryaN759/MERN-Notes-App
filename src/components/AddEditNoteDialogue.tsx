@@ -4,12 +4,12 @@ import { useForm } from "react-hook-form";
 import { NoteInput } from "../network/notes_api";
 import * as NotesApi from "../network/notes_api";
 import TextInputField from "./form/TextInputField";
+import { toast } from "react-toastify";
 
-// prettier-ignore
 interface AddEditNoteDialogueProps {
-  noteToEdit?: Note,
-  onDismiss: () => void,
-  onNoteSaved: (note: Note) => void,
+  noteToEdit?: Note;
+  onDismiss: () => void;
+  onNoteSaved: (note: Note) => void;
 }
 
 const AddEditNoteDialogue = ({
@@ -33,14 +33,16 @@ const AddEditNoteDialogue = ({
       let noteResponse: Note;
       if (noteToEdit) {
         noteResponse = await NotesApi.updateNote(noteToEdit._id, input);
+        toast.success("Note updated successfully!");
       } else {
         noteResponse = await NotesApi.createNote(input);
+        toast.success("Note added successfully!");
       }
 
       onNoteSaved(noteResponse);
     } catch (error) {
       console.error(error);
-      alert(error);
+      toast.error("An error occurred. Please try again.");
     }
   }
   return (

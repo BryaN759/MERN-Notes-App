@@ -10,6 +10,8 @@ import NotesPage from "./pages/notesPage";
 import PrivacyPage from "./pages/PrivacyPage";
 import PageNotFound from "./pages/PageNotFound";
 import styles from "./styles/App.module.css";
+import ShowToast from "./components/toast/ShowToast";
+import { toast } from "react-toastify";
 
 function App() {
   const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
@@ -55,6 +57,7 @@ function App() {
             onSignUpSuccessful={(user) => {
               setLoggedInUser(user);
               setShowSignupModal(false);
+              toast.success(`Sign up successful!`);
             }}
           />
         )}
@@ -64,9 +67,11 @@ function App() {
             onLoginSuccessful={(user) => {
               setLoggedInUser(user);
               setShowLoginModal(false);
+              toast.success(`Welcome! ${user.username}.`);
             }}
           />
         )}
+        <ShowToast />
       </div>
     </BrowserRouter>
   );

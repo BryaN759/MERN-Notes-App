@@ -33,6 +33,7 @@ export interface SignUpCredentials {
   username: string;
   email: string;
   password: string;
+  confirmPassword: string;
 }
 
 export async function signup(credentials: SignUpCredentials): Promise<User> {

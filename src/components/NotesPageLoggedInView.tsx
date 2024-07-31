@@ -7,6 +7,7 @@ import styles from "../styles/NotesPage.module.css";
 import stylesUtils from "../styles/utils.module.css";
 import AddEditNoteDialogue from "./AddEditNoteDialogue";
 import { Note } from "./Note";
+import { toast } from "react-toastify";
 
 const NotesPageLoggedInView = () => {
   const [notes, setNotes] = useState<NoteModel[]>([]);
@@ -39,9 +40,10 @@ const NotesPageLoggedInView = () => {
     try {
       await NotesApi.deleteNote(note._id);
       setNotes(notes.filter((existingNote) => existingNote._id !== note._id));
+      toast.warn("Your note has been deleted!");
     } catch (error) {
       console.error(error);
-      alert(error);
+      toast.error("An error occurred. Please try again.");
     }
   }
 

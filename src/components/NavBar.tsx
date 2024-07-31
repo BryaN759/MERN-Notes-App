@@ -3,6 +3,7 @@ import { User } from "../models/user.model";
 import NavBarLoggedInView from "./NavBarLoggedInView";
 import NavBarLoggedOutView from "./NavBarLoggedOutView";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 interface NavBarProps {
   loggedInUser: User | null;
   onSignupClicked: () => void;
@@ -33,7 +34,10 @@ const NavBar = ({
             {loggedInUser ? (
               <NavBarLoggedInView
                 user={loggedInUser}
-                onLogoutSuccessful={onLogoutSuccessful}
+                onLogoutSuccessful={() => {
+                  onLogoutSuccessful();
+                  toast.warn("You have been logged out!");
+                }}
               />
             ) : (
               <NavBarLoggedOutView

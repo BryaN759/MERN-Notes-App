@@ -64,9 +64,18 @@ const SignUpModal = ({ onDismiss, onSignUpSuccessful }: SignUpModalProps) => {
           />
           <TextInputField
             name="password"
-            label="Email"
+            label="Password"
             type="password"
             placeholder="Enter password"
+            register={register}
+            registerOptions={{ required: "Required" }}
+            error={errors.password}
+          />
+          <TextInputField
+            name="confirmPassword"
+            label="Confirm password"
+            type="password"
+            placeholder="Repeat password"
             register={register}
             registerOptions={{ required: "Required" }}
             error={errors.password}
