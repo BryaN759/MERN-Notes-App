@@ -1,9 +1,35 @@
+import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-interface SignupModalProps {
+import * as apiClient from '../network/api-client';
+import { UserType } from '../../../backend/src/shared/types';
+
+export type RegisterFormData = {
+    fullName: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+};
+interface RegisterProps {
     onDismiss: () => void;
-    // onLoginSuccessful: (user: User) => void;
+    onRegisterSuccessful: (user: UserType) => void;
 }
-const RegisterModal = ({ onDismiss }: SignupModalProps) => {
+const RegisterModal = ({ onDismiss, onRegisterSuccessful }: RegisterProps) => {
+    const {
+        register,
+        watch,
+        handleSubmit,
+        formState: { errors }
+    } = useForm<RegisterFormData>();
+
+    const onSubmit = handleSubmit(async (data) => {
+        try {
+            const newUser = await apiClient.register(data);
+            onRegisterSuccessful(newUser);
+            console.log('Registration Successful!');
+        } catch (error) {
+            console.error(error);
+        }
+    });
     return (
         <div className="fixed inset-0 bg-slate-400 bg-opacity-25 backdrop-blur-sm flex justify-center items-center">
             <div className="relative flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -33,17 +59,28 @@ const RegisterModal = ({ onDismiss }: SignupModalProps) => {
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-200 md:text-2xl">
                             Create a new account
                         </h1>
-                        <form className="space-y-4 md:space-y-6">
+                        <form
+                            className="space-y-4 md:space-y-6"
+                            onSubmit={onSubmit}
+                        >
                             <div>
                                 <label className="block mb-2 text-sm font-medium text-white">
                                     Full name
                                 </label>
                                 <input
                                     type="text"
-                                    name="fullName"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    className="border rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white"
                                     placeholder="Aa"
+                                    {...register('fullName', {
+                                        required:
+                                            'Please fill this field with your name'
+                                    })}
                                 />
+                                {errors.fullName && (
+                                    <span className="text-red-400">
+                                        {errors.fullName.message}
+                                    </span>
+                                )}
                             </div>
                             <div>
                                 <label className="block mb-2 text-sm font-medium text-white">
@@ -51,10 +88,17 @@ const RegisterModal = ({ onDismiss }: SignupModalProps) => {
                                 </label>
                                 <input
                                     type="email"
-                                    name="email"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    className="border rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="name@company.com"
+                                    {...register('email', {
+                                        required: 'Please add your email here!'
+                                    })}
                                 />
+                                {errors.email && (
+                                    <span className="text-red-400">
+                                        {errors.email.message}
+                                    </span>
+                                )}
                             </div>
                             <div>
                                 <label className="block mb-2 text-sm font-medium text-white">
@@ -62,11 +106,17 @@ const RegisterModal = ({ onDismiss }: SignupModalProps) => {
                                 </label>
                                 <input
                                     type="password"
-                                    name="password"
-                                    id="password"
                                     placeholder="••••••••"
                                     className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    {...register('password', {
+                                        required: 'Please enter your password!'
+                                    })}
                                 />
+                                {errors.password && (
+                                    <span className="text-red-400">
+                                        {errors.password.message}
+                                    </span>
+                                )}
                             </div>
                             <div>
                                 <label className="block mb-2 text-sm font-medium text-white">
@@ -74,11 +124,25 @@ const RegisterModal = ({ onDismiss }: SignupModalProps) => {
                                 </label>
                                 <input
                                     type="password"
-                                    name="password"
-                                    id="password"
                                     placeholder="••••••••"
                                     className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    {...register('confirmPassword', {
+                                        validate: (val) => {
+                                            if (!val) {
+                                                return 'Please repeat your password!';
+                                            } else if (
+                                                watch('password') !== val
+                                            ) {
+                                                return 'Passwords do not match!';
+                                            }
+                                        }
+                                    })}
                                 />
+                                {errors.confirmPassword && (
+                                    <span className="text-red-400">
+                                        {errors.confirmPassword.message}
+                                    </span>
+                                )}
                             </div>
                             {/* <div className="flex items-center justify-between">
                                     <div className="flex items-start">
