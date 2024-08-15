@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import * as apiClient from '../network/api-client';
 import { UserType } from '../../../backend/src/shared/types';
+import { toast } from 'react-toastify';
 
 export type RegisterFormData = {
     fullName: string;
@@ -25,37 +26,42 @@ const RegisterModal = ({ onDismiss, onRegisterSuccessful }: RegisterProps) => {
         try {
             const newUser = await apiClient.register(data);
             onRegisterSuccessful(newUser);
-            console.log('Registration Successful!');
+            onDismiss();
+            toast.success(`Account created successfully!`);
         } catch (error) {
-            console.error(error);
+            if (error instanceof Error) {
+                toast.error(error.message || 'An unexpected error occurred.');
+            } else {
+                toast.error('An unknown error occurred.');
+            }
         }
     });
     return (
         <div className="fixed inset-0 bg-slate-400 bg-opacity-25 backdrop-blur-sm flex justify-center items-center">
             <div className="relative flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-                <div className="flex justify-between">
-                    <button
-                        onClick={onDismiss}
-                        className="text-white bg-transparent hover:bg-gray-700 rounded-full p-2"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth="2"
-                            stroke="currentColor"
-                            className="w-6 h-6"
+                <div className="w-full bg-slate-800 rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
+                    <div className="flex justify-end px-2 pt-2">
+                        <button
+                            onClick={onDismiss}
+                            className="text-white bg-transparent hover:bg-gray-700 rounded-full p-2"
                         >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M6 18L18 6M6 6l12 12"
-                            />
-                        </svg>
-                    </button>
-                </div>
-                <div className="w-full bg-slate-600 rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
-                    <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth="2"
+                                stroke="currentColor"
+                                className="w-6 h-6"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M6 18L18 6M6 6l12 12"
+                                />
+                            </svg>
+                        </button>
+                    </div>
+                    <div className="pt-0 pb-6 px-6 space-y-4 md:space-y-6 sm:px-8">
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-200 md:text-2xl">
                             Create a new account
                         </h1>

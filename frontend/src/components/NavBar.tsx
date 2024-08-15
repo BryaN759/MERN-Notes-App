@@ -1,18 +1,29 @@
 import { Link } from 'react-router-dom';
 import { UserType } from '../../../backend/src/shared/types';
-
+import * as apiClient from '../network/api-client';
 interface NavBarProps {
     loggedInUser: UserType | null;
     onSignupClicked: () => void;
     onLoginClicked: () => void;
-    // onLogoutSuccessful: () => void;
+    onLogoutSuccessful: () => void;
 }
 
 const NavBar = ({
     loggedInUser,
     onLoginClicked,
-    onSignupClicked
+    onSignupClicked,
+    onLogoutSuccessful
 }: NavBarProps) => {
+    async function logout() {
+        try {
+            await apiClient.logout();
+            onLogoutSuccessful();
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
+    }
+
     return (
         <div className="bg-teal-700 py-4">
             <div className="container mx-auto flex justify-between">
@@ -22,9 +33,14 @@ const NavBar = ({
                 <span className="flex space-x-2">
                     {loggedInUser ? (
                         <>
-                            <span>Logged in as:{loggedInUser.email}</span>
+                            <span className="flex items-center text-white hover:text-slate-300">
+                                Logged in as: {loggedInUser.email}
+                            </span>
+                            <span className="text-white relative top-1 text-xl">
+                                |
+                            </span>
                             <button
-                                onClick={onLoginClicked}
+                                onClick={logout}
                                 className="flex items-center text-white hover:text-slate-300"
                             >
                                 Sign Out

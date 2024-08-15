@@ -49,11 +49,11 @@ export const signInController = async (
     try {
         const user = await UserModel.findOne({ email });
         if (!user) {
-            return res.status(400).json({ message: 'Invalid Credentials!' });
+            return res.status(401).json({ message: 'Invalid Credentials!' });
         }
         const isPasswordMatch = await bcrypt.compare(password, user.password);
         if (!isPasswordMatch) {
-            return res.status(400).json({ message: 'Invalid credentials' });
+            return res.status(401).json({ message: 'Invalid credentials' });
         }
 
         generateTokenAndSetCookie(user._id, res);

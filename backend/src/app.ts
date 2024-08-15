@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
+import 'dotenv/config';
 
 // routes import
 import userRoutes from './routes/user.routes';
