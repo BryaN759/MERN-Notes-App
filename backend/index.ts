@@ -1,4 +1,5 @@
 import app from './src/app';
+
 import 'dotenv/config';
 import connectDB from './src/config/db';
 

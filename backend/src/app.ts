@@ -5,6 +5,7 @@ import 'dotenv/config';
 
 // routes import
 import userRoutes from './routes/user.routes';
+import path from 'path';
 
 const app = express();
 
@@ -18,10 +19,14 @@ app.use(
     })
 );
 
+const frontendPath = path.join(__dirname, '../../../frontend/dist');
+app.use(express.static(frontendPath));
+
+// app.get('*', (req, res) => {
+//     res.sendFile(path.join(frontendPath, 'index.html'));
+// });
+
 // endpoints
-app.get('/', (req, res, next) => {
-    res.send(`Welcome to Bryan's notes app!`);
-});
 
 app.use('/api/user', userRoutes);
 
