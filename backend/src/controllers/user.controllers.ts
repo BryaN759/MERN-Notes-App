@@ -3,6 +3,24 @@ import UserModel from '../models/user.models';
 import bcrypt from 'bcrypt';
 import generateTokenAndSetCookie from '../utils/generateToken';
 
+export const getLoggedInUserController = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const userId = req.userId;
+    try {
+        const user = await UserModel.findById(userId).select('-password');
+        if (!user) {
+            return res.status(400).json({ message: 'User not found' });
+        }
+        res.json(user);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'something went wrong' });
+    }
+};
+
 export const registerController = async (
     req: Request,
     res: Response,

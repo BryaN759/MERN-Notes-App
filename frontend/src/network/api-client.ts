@@ -3,6 +3,21 @@ import { NoteInput } from '../components/AddEditNoteModal';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
+export async function fetchLoggedInUser() {
+    const response = await fetch(`${API_BASE_URL}/api/user/me`, {
+        method: 'GET',
+        credentials: 'include'
+    });
+
+    if (!response.ok) {
+        const errorRes = await response.json();
+        console.error(
+            `Failed to fetch user: ${response.status} - ${response.statusText}`
+        );
+        throw new Error(errorRes.message);
+    }
+    return response.json();
+}
 export interface RegisterCredentials {
     fullName: string;
     email: string;

@@ -17,7 +17,7 @@ const Note = ({ note, onNoteClicked, onDeleteNoteClicked }: NoteProps) => {
     }
     return (
         <div
-            className="bg-amber-200 rounded-lg shadow-md overflow-hidden cursor-pointer"
+            className="bg-mustard rounded-lg shadow-md overflow-hidden cursor-pointer"
             onClick={() => onNoteClicked(note)}
         >
             <div className="p-4 h-40 flex flex-col">
@@ -31,11 +31,11 @@ const Note = ({ note, onNoteClicked, onDeleteNoteClicked }: NoteProps) => {
                         }}
                     />
                 </div>
-                <p className="mt-2 text-gray-700 flex-grow overflow-hidden text-ellipsis">
+                <p className="mt-2 text-gray-700 flex-grow overflow-hidden text-ellipsis relative after:content-[''] after:absolute after:inset-x-0 after:bottom-0 after:h-3 after:bg-gradient-to-b after:from-transparent after:to-mustard">
                     {text}
                 </p>
             </div>
-            <div className="bg-amber-300 px-4 py-2 text-sm text-gray-500 flex-shrink-0">
+            <div className="bg-amber-400 px-4 py-2 text-sm text-gray-500 flex-shrink-0">
                 {createdUpdatedText}
             </div>
         </div>

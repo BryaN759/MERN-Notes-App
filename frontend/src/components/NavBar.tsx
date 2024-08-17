@@ -25,7 +25,7 @@ const NavBar = ({
     }
 
     return (
-        <div className="bg-teal-700 py-4">
+        <div className="bg-slate-700 py-4">
             <div className="container mx-auto flex justify-between">
                 <span className="text-3xl text-slate-300 font-bold tracking-tight">
                     <Link to="/">Notes App</Link>

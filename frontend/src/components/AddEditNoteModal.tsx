@@ -50,9 +50,9 @@ const AddEditNoteModal = ({
         }
     }
     return (
-        <div className="fixed inset-0 bg-slate-400 bg-opacity-25 backdrop-blur-sm flex justify-center items-center">
+        <div className="fixed inset-0 bg-slate-500 bg-opacity-25 backdrop-blur-sm flex justify-center items-center">
             <div className="relative flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-                <div className="w-[400px] bg-slate-800 rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
+                <div className="w-[400px] bg-ironGray rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
                     <div className="flex justify-end px-2 pt-2">
                         <button
                             onClick={onDismiss}
@@ -88,7 +88,7 @@ const AddEditNoteModal = ({
                                 </label>
                                 <input
                                     type="text"
-                                    className="border rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    className="bg-gray-200 border  text-slate-900 rounded-lg  focus:ring-gray-600 focus:border-primary-600 block w-full p-2.5"
                                     placeholder="Enter a title"
                                     {...register('title', { required: true })}
                                 />
@@ -98,14 +98,14 @@ const AddEditNoteModal = ({
                                     Text
                                 </label>
                                 <textarea
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 h-32 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    className="bg-gray-200 border  text-slate-900 rounded-lg  focus:ring-gray-600 focus:border-primary-600 block w-full p-2.5 h-32 "
                                     placeholder="Enter the text here"
                                     {...register('text')}
                                 />
                             </div>
                             <button
                                 type="submit"
-                                className="w-full text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                                className="w-full text-white bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                             >
                                 Save
                             </button>

@@ -40,7 +40,7 @@ const LoggedInView = () => {
         <div>
             <div className="flex justify-center mb-4">
                 <button
-                    className="flex items-center justify-center focus:outline-none text-white bg-teal-700 hover:bg-teal-600 focus:ring-2 focus:ring-teal-600 font-semibold rounded-lg text-sm px-5 py-2.5 gap-2"
+                    className="flex items-center justify-center focus:outline-none text-white bg-slate-700 hover:bg-slate-800 focus:ring-2 focus:ring-teal-600 font-semibold rounded-lg text-sm px-5 py-2.5 gap-2"
                     onClick={() => setShowAddNoteDialogue(true)}
                 >
                     <FaPlus />
