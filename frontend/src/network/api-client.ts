@@ -1,4 +1,5 @@
-import { UserType } from '../../../backend/src/shared/types';
+import { NotesType, UserType } from '../../../backend/src/shared/types';
+import { NoteInput } from '../components/AddEditNoteModal';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
@@ -14,6 +15,7 @@ export async function register(
 ): Promise<UserType> {
     const response = await fetch(`${API_BASE_URL}/api/user/register`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
             'Content-Type': 'application/json'
         },
@@ -36,6 +38,7 @@ export interface LoginCredentials {
 export async function login(credentials: LoginCredentials): Promise<UserType> {
     const response = await fetch(`${API_BASE_URL}/api/user/sign-in`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
             'Content-Type': 'application/json'
         },
@@ -53,6 +56,49 @@ export async function login(credentials: LoginCredentials): Promise<UserType> {
 
 export async function logout() {
     await fetch(`${API_BASE_URL}/api/user/log-out`, {
-        method: 'POST'
+        method: 'POST',
+        credentials: 'include'
+    });
+}
+
+export async function fetchNotes(): Promise<NotesType[]> {
+    const response = await fetch(`${API_BASE_URL}/api/notes/`, {
+        method: 'GET',
+        credentials: 'include'
+    });
+    return response.json();
+}
+
+export async function createNote(note: NoteInput): Promise<NotesType> {
+    const response = await fetch(`${API_BASE_URL}/api/notes/`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(note)
+    });
+    return response.json();
+}
+
+export async function updateNote(
+    noteId: string,
+    note: NoteInput
+): Promise<NotesType> {
+    const response = await fetch(`${API_BASE_URL}/api/notes/` + noteId, {
+        method: 'PATCH',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(note)
+    });
+    return response.json();
+}
+
+export async function deleteNote(noteId: string) {
+    await fetch(`${API_BASE_URL}/api/notes/` + noteId, {
+        method: 'DELETE',
+        credentials: 'include'
     });
 }
