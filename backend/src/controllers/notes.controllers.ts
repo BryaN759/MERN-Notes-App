@@ -7,8 +7,9 @@ export const getNotes = async (
     res: Response,
     next: NextFunction
 ) => {
+    const userId = req.userId;
     try {
-        const notes = await NoteModel.find();
+        const notes = await NoteModel.find({ userId });
         res.status(200).json(notes);
     } catch (error) {
         console.error('Error in getNotes controller:', error);

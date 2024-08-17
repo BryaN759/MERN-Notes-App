@@ -5,7 +5,7 @@ import authMiddleware from '../middlewares/auth.middleware';
 const router = express.Router();
 
 // /api/notes
-router.get('/', Controllers.getNotes);
+router.get('/', authMiddleware, Controllers.getNotes);
 
 router.post('/', authMiddleware, Controllers.addNote);
 
