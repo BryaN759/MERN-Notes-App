@@ -10,8 +10,13 @@ export default {
             }
         },
         container: {
+            center: true,
             padding: {
-                md: '10rem'
+                DEFAULT: '1rem', // Apply padding by default
+                sm: '1rem',
+                md: '10rem', // Larger padding on medium screens and up
+                lg: '10rem',
+                xl: '10rem'
             }
         }
     },
