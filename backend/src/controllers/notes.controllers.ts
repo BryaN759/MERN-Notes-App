@@ -123,3 +123,7 @@ export const deleteNote = async (
         });
     }
 };
+
+export const refreshCall = (req: Request, res: Response) => {
+    console.log('Refresh request');
+};
