@@ -31,7 +31,9 @@ const NavBar = ({
         <div className="bg-slate-700 py-4">
             <div className="container mx-auto flex justify-between items-center">
                 <span className="text-3xl text-slate-300 font-bold tracking-tight">
-                    <Link to="/">Notes App</Link>
+                    <Link to="/">
+                        Note<span className="text-mustard">Snap</span>
+                    </Link>
                 </span>
 
                 {/* Hamburger Icon for Smaller Screens */}
