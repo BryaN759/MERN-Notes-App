@@ -1,5 +1,4 @@
 import app from './src/app';
-import './src/config/cron';
 import 'dotenv/config';
 import connectDB from './src/config/db';
 
