@@ -8,9 +8,11 @@ import LoggedInPage from '../pages/LoggedInPage';
 import LoggedOutPage from '../pages/LoggedOutPage';
 import { useNavigate } from 'react-router-dom';
 import { fetchLoggedInUser } from '../network/api-client';
+import LoadingScreen from '../components/LoadingScreen';
 
 const Layout = () => {
     const [loggedInUser, setLoggedInUser] = useState<UserType | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     const [showLoginModal, setShowLoginModal] = useState(false);
     const [showRegisterModal, setShowRegisterModal] = useState(false);
@@ -20,11 +22,14 @@ const Layout = () => {
     useEffect(() => {
         const loadLoggedInUser = async () => {
             try {
+                // await new Promise((resolve) => setTimeout(resolve, 3000));
                 const user = await fetchLoggedInUser();
                 setLoggedInUser(user);
             } catch (error) {
                 console.error('Failed to fetch logged-in user:', error);
-                navigate('/login');
+                navigate('/');
+            } finally {
+                setIsLoading(false);
             }
         };
 
@@ -40,7 +45,13 @@ const Layout = () => {
                 onLogoutSuccessful={() => setLoggedInUser(null)}
             />
             <div className="container mx-auto py-10 flex-1">
-                {loggedInUser ? <LoggedInPage /> : <LoggedOutPage />}
+                {isLoading ? (
+                    <LoadingScreen />
+                ) : loggedInUser ? (
+                    <LoggedInPage />
+                ) : (
+                    <LoggedOutPage />
+                )}
             </div>
 
             {showLoginModal && (
