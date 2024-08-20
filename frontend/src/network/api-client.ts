@@ -76,6 +76,32 @@ export async function logout() {
     });
 }
 
+export interface PasswordChangeCredentials {
+    email: string;
+    currentPassword: string;
+    newPassword: string;
+    confirmNewPassword: string;
+}
+
+export async function myProfile(credentials: PasswordChangeCredentials) {
+    const response = await fetch(`${API_BASE_URL}/api/user/my-profile`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(credentials)
+    });
+    if (!response.ok) {
+        const errorRes = await response.json();
+        console.error(
+            `Failed to change user password: ${response.status} - ${response.statusText}`
+        );
+        throw new Error(errorRes.message);
+    }
+    return response.json();
+}
+
 export async function fetchNotes(): Promise<NotesType[]> {
     const response = await fetch(`${API_BASE_URL}/api/notes/`, {
         method: 'GET',

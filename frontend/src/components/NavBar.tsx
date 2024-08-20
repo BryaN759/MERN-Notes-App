@@ -7,13 +7,15 @@ interface NavBarProps {
     onSignupClicked: () => void;
     onLoginClicked: () => void;
     onLogoutSuccessful: () => void;
+    onProfileClicked: () => void;
 }
 
 const NavBar = ({
     loggedInUser,
     onLoginClicked,
     onSignupClicked,
-    onLogoutSuccessful
+    onLogoutSuccessful,
+    onProfileClicked
 }: NavBarProps) => {
     async function logout() {
         try {
@@ -36,7 +38,6 @@ const NavBar = ({
                     </Link>
                 </span>
 
-                {/* Hamburger Icon for Smaller Screens */}
                 <div className="md:hidden">
                     <button
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -63,9 +64,12 @@ const NavBar = ({
                 <div className="hidden md:flex space-x-2">
                     {loggedInUser ? (
                         <>
-                            <span className="flex items-center text-white hover:text-slate-300">
+                            <button
+                                onClick={onProfileClicked}
+                                className="flex items-center text-white hover:text-slate-300"
+                            >
                                 Logged in as: {loggedInUser.email}
-                            </span>
+                            </button>
                             <span className="text-white relative top-1 text-xl">
                                 |
                             </span>
@@ -103,9 +107,12 @@ const NavBar = ({
                         <div className="flex flex-col space-y-2 p-4">
                             {loggedInUser ? (
                                 <>
-                                    <span className="text-white hover:text-slate-300">
+                                    <button
+                                        onClick={onProfileClicked}
+                                        className="text-white hover:text-slate-300"
+                                    >
                                         Logged in as: {loggedInUser.email}
-                                    </span>
+                                    </button>
                                     <button
                                         onClick={logout}
                                         className="text-white hover:text-slate-300"

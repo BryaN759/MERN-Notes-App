@@ -9,6 +9,7 @@ import LoggedOutPage from '../pages/LoggedOutPage';
 import { useNavigate } from 'react-router-dom';
 import { fetchLoggedInUser } from '../network/api-client';
 import LoadingScreen from '../components/LoadingScreen';
+import ProfileDashboardModal from '../components/ProfileDashboardModal';
 
 const Layout = () => {
     const [loggedInUser, setLoggedInUser] = useState<UserType | null>(null);
@@ -16,6 +17,7 @@ const Layout = () => {
 
     const [showLoginModal, setShowLoginModal] = useState(false);
     const [showRegisterModal, setShowRegisterModal] = useState(false);
+    const [showProfileModal, setShowProfileModal] = useState(false);
 
     const navigate = useNavigate();
 
@@ -43,6 +45,7 @@ const Layout = () => {
                 onLoginClicked={() => setShowLoginModal(true)}
                 onSignupClicked={() => setShowRegisterModal(true)}
                 onLogoutSuccessful={() => setLoggedInUser(null)}
+                onProfileClicked={() => setShowProfileModal(true)}
             />
             <div className="container mx-auto py-10 flex-1">
                 {isLoading ? (
@@ -66,6 +69,14 @@ const Layout = () => {
                     onRegisterSuccessful={(user) => setLoggedInUser(user)}
                 />
             )}
+            {loggedInUser && showProfileModal && (
+                <ProfileDashboardModal
+                    email={loggedInUser.email}
+                    onDismiss={() => setShowProfileModal(false)}
+                    onPasswordChangeSuccessful={() => {}}
+                />
+            )}
+
             <Toast />
         </div>
     );

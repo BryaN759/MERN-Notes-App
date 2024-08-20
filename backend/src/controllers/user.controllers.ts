@@ -96,3 +96,44 @@ export const logOutController = async (
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+export const myProfileController = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const { currentPassword, newPassword, confirmNewPassword } = req.body;
+    const userId = req.userId;
+    try {
+        const user = await UserModel.findById(userId);
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        const passwordCheck = await bcrypt.compare(
+            currentPassword,
+            user.password
+        );
+
+        if (!passwordCheck) {
+            return res
+                .status(400)
+                .json({ error: 'Your current Password is incorrect!' });
+        }
+        if (newPassword !== confirmNewPassword) {
+            return res
+                .status(400)
+                .json({ error: 'New passwords do not match' });
+        }
+
+        const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+
+        user.password = hashedNewPassword;
+        await user.save();
+
+        res.status(200).json({ message: 'Password updated successfully' });
+    } catch (error) {
+        console.log('Error in myProfile controller', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
