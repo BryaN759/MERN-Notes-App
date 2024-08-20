@@ -4,7 +4,7 @@ import https from 'https';
 const URL = 'https://mern-notes-web.onrender.com/';
 
 const job = new CronJob(
-    '*/1 * * * * *', // cronTime
+    '*/1 * * * *', // cronTime
     function () {
         https
             .get(URL, (res) => {
