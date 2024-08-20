@@ -73,7 +73,6 @@ const Layout = () => {
                 <ProfileDashboardModal
                     email={loggedInUser.email}
                     onDismiss={() => setShowProfileModal(false)}
-                    onPasswordChangeSuccessful={() => {}}
                 />
             )}
 

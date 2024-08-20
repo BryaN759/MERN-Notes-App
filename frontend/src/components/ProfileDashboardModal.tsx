@@ -12,7 +12,6 @@ export type ProfileDashboardData = {
 interface ProfileModalProps {
     email: string;
     onDismiss: () => void;
-    onPasswordChangeSuccessful: () => void;
 }
 const ProfileDashboardModal = ({ email, onDismiss }: ProfileModalProps) => {
     const {
